@@ -9,7 +9,7 @@ import Patiens from "../../app/screens/Patiens";
 import RendezVous from "../../app/screens/RendezVous";
 import Prescriptions from "../../app/screens/Prescriptions";
 import Consultations from "../../app/screens/Consultations";
-import { Dimensions, Keyboard, Text } from "react-native";
+import { Dimensions, Keyboard } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AddPatients from "../../app/screens/AddPatients";
 import PatientsDetails from "../../app/screens/PatientsDetails";

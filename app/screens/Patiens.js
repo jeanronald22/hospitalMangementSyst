@@ -17,10 +17,10 @@ const Patiens = ({ route, navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [patients, setPatients] = useState([]);
   useEffect(() => {
-    fetch();
     navigation.setOptions({
       tabBarBadge: patients.length,
     });
+    fetch();
     // definitin des badget
   }, [navigation]);
 

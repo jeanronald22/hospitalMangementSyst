@@ -5,7 +5,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { act } from "react";
+import React from "react";
 import CustomHeader from "../../components/CustomHeader";
 import globalStyles from "../../assets/syles generaux/globalStyle";
 import { Avatar, Card, Divider, Provider } from "react-native-paper";

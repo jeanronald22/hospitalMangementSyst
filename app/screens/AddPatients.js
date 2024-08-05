@@ -10,7 +10,6 @@ import {
 import React, { useState } from "react";
 import globalStyles from "../../assets/syles generaux/globalStyle";
 import {
-  Appbar,
   Button,
   Divider,
   Modal,
@@ -18,7 +17,6 @@ import {
   Portal,
   TextInput,
 } from "react-native-paper";
-import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { colors } from "../../assets/colors/colors";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -26,7 +24,7 @@ import CustomSnackbar from "../../components/CustomSnackbar";
 import { addPatients } from "../../api/dataService";
 import CustomHeader from "../../components/CustomHeader";
 
-const AddPatients = ({ route, navigation }) => {
+const AddPatients = ({ route }) => {
   // !-------------------------------definitin des states ------------------------
   const [formData, setFormData] = useState({
     nom: "",
@@ -70,12 +68,6 @@ const AddPatients = ({ route, navigation }) => {
   };
   const showModal = () => setVisible(true);
   const hideModal = () => setVisible(false);
-
-  const handleDateChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setVisible(true);
-    setFormData({ ...formData, dateDeNaissance: currentDate });
-  };
 
   const formatDate = (date) => {
     let day = date.getDate();

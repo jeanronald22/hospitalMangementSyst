@@ -70,9 +70,10 @@ const AddPatients = ({ route }) => {
   const hideModal = () => setVisible(false);
 
   const formatDate = (date) => {
-    let day = date.getDate();
-    let month = date.getMonth() + 1;
-    let year = date.getFullYear();
+    dateObj = new Date(date);
+    const year = dateObj.getFullYear();
+    const month = String(dateObj.getMonth() + 1).padStart(2, "0"); // Les mois commencent à 0
+    const day = String(dateObj.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}`;
   };
 
@@ -110,13 +111,18 @@ const AddPatients = ({ route }) => {
     return true;
   };
   // ajout d'un nouveau patient
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     const tmp = formatDate(formData.dateDeNaissance); //conversion de la date de naissance
+
     setFormData({ ...formData, trueFormDate: tmp });
+    console.log(formData.trueFormDate);
+
     if (validate()) {
       // ici les donnees ne contiennent pas d'erreur
       try {
-        addPatients(formData);
+        nom = await addPatients(formData);
+        console.log(nom);
+
         setTimeout(() => showSnackBar(), 2000);
       } catch (error) {
         console.log(error);

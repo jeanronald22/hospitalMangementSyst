@@ -13,9 +13,10 @@ import { colors } from "../../assets/colors/colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { differenceInYears } from "date-fns";
 
-const PatientsDetails = ({ route }) => {
+const PatientsDetails = ({ route, navigation }) => {
   const patient = route.params; // on recupere les données du patient passé en parametre
   //... on fait le rendu des informations de la vue detaille des patients ici
+
   return (
     <View style={[globalStyles.container, styles.container]}>
       <CustomHeader origin="Main" title={route.name} />
@@ -38,7 +39,10 @@ const PatientsDetails = ({ route }) => {
           </View>
           {/* definition des diferent action possible  */}
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={styles.action}>
+            <TouchableOpacity
+              style={styles.action}
+              onPress={() => navigation.navigate("Mise à jour", patient)}
+            >
               <MaterialIcons name="edit" size={24} color={colors.bleuMoyen} />
               <Text style={[globalStyles.text, styles.actionText]}>
                 Modifier

@@ -21,7 +21,7 @@ const CustomHeader = ({ origin, title }) => {
         style={{
           alignItems: "center",
           justifyContent: "center",
-          marginBottom: 16,
+          // marginBottom: 16,
         }}
       >
         <MaterialIcons
@@ -49,5 +49,6 @@ const styles = StyleSheet.create({
   headerStyle: {
     backgroundColor: colors.white,
     alignItems: "center",
+    justifyContent: "center",
   },
 });

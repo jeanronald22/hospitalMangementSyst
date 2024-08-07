@@ -58,7 +58,7 @@ const LoginScreen = ({ navigation }) => {
   //!--------------------------------------definition foncion de retour-------------------------------------------
   return (
     <KeyboardAvoidingView
-      style={[globalStyles.container, { padding: 16 }]}
+      style={[globalStyles.container, { padding: 16, marginTop: 30 }]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -118,6 +118,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
     width: "100%",
     height: "50%",
+    justifyContent: "flex-start",
+    // marginTop: 20,
   },
   image: {
     width: "100%",
@@ -128,7 +130,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "yellow",
     marginTop: 30,
     height: "50%",
-    // justifyContent: "center",
+    justifyContent: "flex-start",
+    marginBottom: 60,
   },
 });
 export default LoginScreen;

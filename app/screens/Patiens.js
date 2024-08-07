@@ -17,10 +17,10 @@ const Patiens = ({ route, navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [patients, setPatients] = useState([]);
   useEffect(() => {
+    fetch();
     navigation.setOptions({
       tabBarBadge: patients.length,
     });
-    fetch();
     // definitin des badget
   }, [navigation]);
 
@@ -30,7 +30,7 @@ const Patiens = ({ route, navigation }) => {
     const bird = new Date(birdDate);
     const today = new Date();
     const diff = differenceInYears(today, bird);
-    return diff;
+    return diff + 10;
   };
   // recuperations des patients
   const fetch = async () => {
@@ -42,34 +42,38 @@ const Patiens = ({ route, navigation }) => {
     return false;
   };
   const onChangeSearch = (query) => setSearchQuery(query);
-  const renderPatient = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate("Details", item)}>
-      <Card style={styles.card}>
-        <Card.Title
-          title={
-            <Text style={{ fontFamily: "Roboto_500Medium" }}>
-              {`${item.personne.first_name} ${item.personne.last_name}`}
+  const renderPatient = ({ item }) => {
+    // console.log(item.personne.date_naissance);
+
+    return (
+      <TouchableOpacity onPress={() => navigation.navigate("Details", item)}>
+        <Card style={styles.card}>
+          <Card.Title
+            title={
+              <Text style={{ fontFamily: "Roboto_500Medium" }}>
+                {`${item.personne.first_name} ${item.personne.last_name}`}
+              </Text>
+            }
+            subtitle={`Age: ${getAge(item.personne.date_naissance)}, Sexe: ${
+              item.personne.sexe === "M" ? "Masculin" : "Feminin"
+            }`}
+            left={(props) => (
+              <Avatar.Icon
+                {...props}
+                icon="account"
+                style={{ backgroundColor: colors.bleuMoyen }}
+              />
+            )}
+          />
+          <Card.Content>
+            <Text style={globalStyles.text}>
+              Details apropos des patients seront ici !.
             </Text>
-          }
-          subtitle={`Age: ${getAge(item.personne.date_naissance)}, Sexe: ${
-            item.personne.sexe === "M" ? "Masculin" : "Feminin"
-          }`}
-          left={(props) => (
-            <Avatar.Icon
-              {...props}
-              icon="account"
-              style={{ backgroundColor: colors.bleuMoyen }}
-            />
-          )}
-        />
-        <Card.Content>
-          <Text style={globalStyles.text}>
-            Details apropos des patients seront ici !.
-          </Text>
-        </Card.Content>
-      </Card>
-    </TouchableOpacity>
-  );
+          </Card.Content>
+        </Card>
+      </TouchableOpacity>
+    );
+  };
   // !-------------------------------------fonction de retour-----------------------------------
   return (
     <View style={styles.container}>

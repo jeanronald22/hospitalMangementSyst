@@ -18,6 +18,7 @@ import {
 import globalStyles from "./assets/syles generaux/globalStyle";
 import StackNavigation from "./components/navigation/StackNavigation";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import AddPatients from "./app/screens/AddPatients";
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -41,6 +42,7 @@ export default function App() {
       <SafeAreaProvider style={globalStyles.container}>
         <StatusBar style="auto" />
         <StackNavigation />
+        {/* <AddPatients /> */}
       </SafeAreaProvider>
     );
   }

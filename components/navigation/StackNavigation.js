@@ -13,6 +13,7 @@ import { Dimensions, Keyboard } from "react-native";
 import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AddPatients from "../../app/screens/AddPatients";
 import PatientsDetails from "../../app/screens/PatientsDetails";
+import UpdatePatients from "../../app/screens/UpdatePatients";
 
 const StackNavigation = () => {
   useEffect(() => {
@@ -90,7 +91,8 @@ const StackNavigation = () => {
         <Stack.Screen name="Login" component={LoginScreen} />
         <Stack.Screen name="Main" component={BottomTabNavigator} />
         <Stack.Screen name="Ajouter patient" component={AddPatients} />
-        <Stack.Screen name="Details" component={PatientsDetails}/>
+        <Stack.Screen name="Details" component={PatientsDetails} />
+        <Stack.Screen name="Mise à jour" component={UpdatePatients} />
       </Stack.Navigator>
     </NavigationContainer>
   );

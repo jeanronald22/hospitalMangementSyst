@@ -17,10 +17,10 @@ const Patiens = ({ route, navigation }) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [patients, setPatients] = useState([]);
   useEffect(() => {
+    fetch();
     navigation.setOptions({
       tabBarBadge: patients.length,
     });
-    fetch();
     // definitin des badget
   }, [navigation]);
 
@@ -30,46 +30,49 @@ const Patiens = ({ route, navigation }) => {
     const bird = new Date(birdDate);
     const today = new Date();
     const diff = differenceInYears(today, bird);
-    return diff;
+    return diff + 10;
   };
   // recuperations des patients
   const fetch = async () => {
     try {
       const patients = await getPatients();
       setPatients(patients);
+      console.log(patients);
       return true;
     } catch (error) {}
     return false;
   };
   const onChangeSearch = (query) => setSearchQuery(query);
-  const renderPatient = ({ item }) => (
-    <TouchableOpacity onPress={() => navigation.navigate("Details", item)}>
-      <Card style={styles.card}>
-        <Card.Title
-          title={
-            <Text style={{ fontFamily: "Roboto_500Medium" }}>
-              {`${item.personne.first_name} ${item.personne.last_name}`}
+  const renderPatient = ({ item }) => {
+    // console.log(item.personne.date_naissance);
+
+    return (
+      <TouchableOpacity onPress={() => navigation.navigate("Details", item)}>
+        <Card style={styles.card}>
+          <Card.Title
+            title={
+              <Text style={{ fontFamily: "Roboto_500Medium" }}>
+                {`${item.nom} ${item.prenom}`}
+              </Text>
+            }
+            subtitle={`Age: ${getAge(item.dateNaissance)}, Sexe: ${item.sexe}`}
+            left={(props) => (
+              <Avatar.Icon
+                {...props}
+                icon="account"
+                style={{ backgroundColor: colors.bleuMoyen }}
+              />
+            )}
+          />
+          <Card.Content>
+            <Text style={globalStyles.text}>
+              Details apropos des patients seront ici !.
             </Text>
-          }
-          subtitle={`Age: ${getAge(item.personne.date_naissance)}, Sexe: ${
-            item.personne.sexe === "M" ? "Masculin" : "Feminin"
-          }`}
-          left={(props) => (
-            <Avatar.Icon
-              {...props}
-              icon="account"
-              style={{ backgroundColor: colors.bleuMoyen }}
-            />
-          )}
-        />
-        <Card.Content>
-          <Text style={globalStyles.text}>
-            Details apropos des patients seront ici !.
-          </Text>
-        </Card.Content>
-      </Card>
-    </TouchableOpacity>
-  );
+          </Card.Content>
+        </Card>
+      </TouchableOpacity>
+    );
+  };
   // !-------------------------------------fonction de retour-----------------------------------
   return (
     <View style={styles.container}>
@@ -88,9 +91,7 @@ const Patiens = ({ route, navigation }) => {
       <FlatList
         data={patients.filter(
           (patient) =>
-            patient.personne.first_name
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) //on fais un tri sur les patient en fonction de ce qui a ete taper dans la base
+            patient.nom.toLowerCase().includes(searchQuery.toLowerCase()) //on fais un tri sur les patient en fonction de ce qui a ete taper dans la base
         )}
         renderItem={renderPatient}
         keyExtractor={(item) => item.id}

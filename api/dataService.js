@@ -87,6 +87,7 @@ export const getPatients = async () => {
 // ajouter un nouveau patient
 export const addPatients = async (information) => {
   const token = await getData("newToken");
+
   try {
     const response = await fetch(`${API_URL}/${PATIENTS}`, {
       method: "POST",
@@ -115,6 +116,51 @@ export const addPatients = async (information) => {
       console.error("Erreur lors de l'ajout du patient :", errorData);
       throw new Error(
         "Erreur lors de l'ajout du patient :" + errorData.message
+      );
+    } else {
+      const patient = await response.json();
+      return patient.personne.first_name;
+    }
+  } catch (error) {
+    console.error("Erreur lors de la requete :", error.message);
+    throw new Error("Erreur lors de la requete :" + error.message);
+  }
+};
+
+// mise a jour des informations patients
+export const updatePatient = async (information, id) => {
+  const token = await getData("newToken");
+  try {
+    const response = await fetch(`${API_URL}/${PATIENTS}${id}/`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        personne: {
+          date_naissance: information.trueFormDate,
+          sexe: information.sexe,
+          first_name: information.nom,
+          last_name: information.prenom,
+          address: information.adresse,
+          phone_number: information.phone,
+          email: information.email,
+        },
+        poids: information.poids,
+        taille: information.taille,
+        tension_art: information.tension,
+        temperature: information.temperature,
+      }),
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error(
+        "Erreur lors de la  mise a jour des information  du patient :",
+        errorData
+      );
+      throw new Error(
+        "Erreur lors de la mise a jou  du patient :" + errorData.message
       );
     } else {
       const patient = await response.json();

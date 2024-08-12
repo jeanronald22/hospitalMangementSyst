@@ -13,9 +13,10 @@ import { colors } from "../../assets/colors/colors";
 import MaterialIcons from "@expo/vector-icons/MaterialIcons";
 import { differenceInYears } from "date-fns";
 
-const PatientsDetails = ({ route }) => {
+const PatientsDetails = ({ route, navigation }) => {
   const patient = route.params; // on recupere les données du patient passé en parametre
   //... on fait le rendu des informations de la vue detaille des patients ici
+
   return (
     <View style={[globalStyles.container, styles.container]}>
       <CustomHeader origin="Main" title={route.name} />
@@ -30,15 +31,16 @@ const PatientsDetails = ({ route }) => {
               style={{ backgroundColor: colors.bleuMoyen }}
             />
             <Text style={globalStyles.header1}>
-              {patient.personne.first_name} {patient.personne.last_name}
+              {patient.nom} {patient.prenom}
             </Text>
-            <Text style={globalStyles.text}>
-              {patient.personne.phone_number}
-            </Text>
+            <Text style={globalStyles.text}>{patient.telephone}</Text>
           </View>
           {/* definition des diferent action possible  */}
           <View style={styles.actionContainer}>
-            <TouchableOpacity style={styles.action}>
+            <TouchableOpacity
+              style={styles.action}
+              onPress={() => navigation.navigate("Mise à jour", patient)}
+            >
               <MaterialIcons name="edit" size={24} color={colors.bleuMoyen} />
               <Text style={[globalStyles.text, styles.actionText]}>
                 Modifier
@@ -121,10 +123,7 @@ const PatientsDetails = ({ route }) => {
                 <Card.Content style={styles.cartContent}>
                   <Text style={styles.label}>Age</Text>
                   <Text style={[styles.value, globalStyles.secondaryText]}>
-                    {differenceInYears(
-                      new Date(),
-                      patient.personne.date_naissance
-                    )}
+                    {differenceInYears(new Date(), patient.dateNaissance)}
                     {" Ans"}
                   </Text>
                 </Card.Content>
@@ -133,7 +132,7 @@ const PatientsDetails = ({ route }) => {
                 <Card.Content style={styles.cartContent}>
                   <Text style={styles.label}>Sexe</Text>
                   <Text style={[styles.value, globalStyles.secondaryText]}>
-                    {patient.personne.sexe === "M" ? "Masculin" : "Féminin"}
+                    {patient.sexe}
                   </Text>
                 </Card.Content>
               </Card>
@@ -141,7 +140,7 @@ const PatientsDetails = ({ route }) => {
                 <Card.Content style={styles.cartContent}>
                   <Text style={styles.label}>Email</Text>
                   <Text style={[styles.value, globalStyles.secondaryText]}>
-                    {patient.personne.email}{" "}
+                    {patient.addresseEmail}{" "}
                   </Text>
                 </Card.Content>
               </Card>
@@ -149,7 +148,7 @@ const PatientsDetails = ({ route }) => {
                 <Card.Content style={styles.cartContent}>
                   <Text style={styles.label}>Addresse</Text>
                   <Text style={[styles.value, globalStyles.secondaryText]}>
-                    {patient.personne.address}{" "}
+                    {patient.adresse}{" "}
                   </Text>
                 </Card.Content>
               </Card>
@@ -176,7 +175,7 @@ const PatientsDetails = ({ route }) => {
               </Text>
             </View>
             {/* elemenst */}
-            <Card styl={styles.card}>
+            {/* <Card styl={styles.card}>
               <Card.Content style={styles.cartContent}>
                 <Text style={styles.label}>Poids</Text>
                 <Text style={[styles.value, globalStyles.secondaryText]}>
@@ -211,7 +210,7 @@ const PatientsDetails = ({ route }) => {
                   {" mmHg "}
                 </Text>
               </Card.Content>
-            </Card>
+            </Card> */}
           </View>
         </ScrollView>
       </Provider>

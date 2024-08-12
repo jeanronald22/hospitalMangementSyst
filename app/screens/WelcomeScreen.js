@@ -55,9 +55,12 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     padding: 16,
+    // backgroundColor: "red",
   },
   imageContainer: {
     // backgroundColor: "yellow",
+    // justifyContent: "center",
+
     width: "100%",
     height: "60%",
   },
@@ -66,6 +69,7 @@ const styles = StyleSheet.create({
     height: "auto",
     // backgroundColor: "green",
     alignItems: "center",
+    marginTop: 30,
   },
   welcomeContainer: {
     width: "100%",
@@ -84,6 +88,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "40%",
     alignItems: "center",
+    justifyContent: "center",
   },
   title: {
     textAlign: "center",

@@ -16,6 +16,7 @@ import globalStyles from "../../assets/syles generaux/globalStyle";
 import CustomInput from "../../components/CustomInput";
 import CustomModal from "../../components/CustomModal";
 import { authenticateUser } from "../../services/AuthService";
+import { storeData } from "../../services/stockage";
 
 const LoginScreen = ({ navigation }) => {
   //!---------------------------------------definiton des hooks-------------------------------------------------------
@@ -49,6 +50,7 @@ const LoginScreen = ({ navigation }) => {
       // connexio au serveur
       const response = await authenticateUser(username, password);
       console.log(response);
+      storeData("currentUser", response);
       navigation.replace("Main", response);
     } catch (error) {
       setErrorMessage("Nom d'utilisateur ou mot de passe incorrect");
@@ -58,7 +60,7 @@ const LoginScreen = ({ navigation }) => {
   //!--------------------------------------definition foncion de retour-------------------------------------------
   return (
     <KeyboardAvoidingView
-      style={[globalStyles.container, { padding: 16 }]}
+      style={[globalStyles.container, { padding: 16, marginTop: 30 }]}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <TouchableWithoutFeedback onPress={dismissKeyboard}>
@@ -118,6 +120,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "red",
     width: "100%",
     height: "50%",
+    justifyContent: "flex-start",
+    // marginTop: 20,
   },
   image: {
     width: "100%",
@@ -128,7 +132,8 @@ const styles = StyleSheet.create({
     // backgroundColor: "yellow",
     marginTop: 30,
     height: "50%",
-    // justifyContent: "center",
+    justifyContent: "flex-start",
+    marginBottom: 60,
   },
 });
 export default LoginScreen;

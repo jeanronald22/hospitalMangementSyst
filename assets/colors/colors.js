@@ -9,4 +9,6 @@ export const colors = {
   blueFonce: "#2A3E50", //pour les textes sur les arriere-palns blancs
   erros: "#cc1919",
   sucess: "#4CAF50",
+  warning: "#FFA500",
+  bgInput: "#579ceb",
 };

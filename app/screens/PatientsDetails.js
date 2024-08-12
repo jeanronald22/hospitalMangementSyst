@@ -31,11 +31,9 @@ const PatientsDetails = ({ route, navigation }) => {
               style={{ backgroundColor: colors.bleuMoyen }}
             />
             <Text style={globalStyles.header1}>
-              {patient.personne.first_name} {patient.personne.last_name}
+              {patient.nom} {patient.prenom}
             </Text>
-            <Text style={globalStyles.text}>
-              {patient.personne.phone_number}
-            </Text>
+            <Text style={globalStyles.text}>{patient.telephone}</Text>
           </View>
           {/* definition des diferent action possible  */}
           <View style={styles.actionContainer}>
@@ -125,10 +123,7 @@ const PatientsDetails = ({ route, navigation }) => {
                 <Card.Content style={styles.cartContent}>
                   <Text style={styles.label}>Age</Text>
                   <Text style={[styles.value, globalStyles.secondaryText]}>
-                    {differenceInYears(
-                      new Date(),
-                      patient.personne.date_naissance
-                    )}
+                    {differenceInYears(new Date(), patient.dateNaissance)}
                     {" Ans"}
                   </Text>
                 </Card.Content>
@@ -137,7 +132,7 @@ const PatientsDetails = ({ route, navigation }) => {
                 <Card.Content style={styles.cartContent}>
                   <Text style={styles.label}>Sexe</Text>
                   <Text style={[styles.value, globalStyles.secondaryText]}>
-                    {patient.personne.sexe === "M" ? "Masculin" : "Féminin"}
+                    {patient.sexe}
                   </Text>
                 </Card.Content>
               </Card>
@@ -145,7 +140,7 @@ const PatientsDetails = ({ route, navigation }) => {
                 <Card.Content style={styles.cartContent}>
                   <Text style={styles.label}>Email</Text>
                   <Text style={[styles.value, globalStyles.secondaryText]}>
-                    {patient.personne.email}{" "}
+                    {patient.addresseEmail}{" "}
                   </Text>
                 </Card.Content>
               </Card>
@@ -153,7 +148,7 @@ const PatientsDetails = ({ route, navigation }) => {
                 <Card.Content style={styles.cartContent}>
                   <Text style={styles.label}>Addresse</Text>
                   <Text style={[styles.value, globalStyles.secondaryText]}>
-                    {patient.personne.address}{" "}
+                    {patient.adresse}{" "}
                   </Text>
                 </Card.Content>
               </Card>
@@ -180,7 +175,7 @@ const PatientsDetails = ({ route, navigation }) => {
               </Text>
             </View>
             {/* elemenst */}
-            <Card styl={styles.card}>
+            {/* <Card styl={styles.card}>
               <Card.Content style={styles.cartContent}>
                 <Text style={styles.label}>Poids</Text>
                 <Text style={[styles.value, globalStyles.secondaryText]}>
@@ -215,7 +210,7 @@ const PatientsDetails = ({ route, navigation }) => {
                   {" mmHg "}
                 </Text>
               </Card.Content>
-            </Card>
+            </Card> */}
           </View>
         </ScrollView>
       </Provider>

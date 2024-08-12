@@ -3,9 +3,8 @@ import { colors } from "../colors/colors";
 
 const globalStyles = StyleSheet.create({
   container: {
-    flex: 1,
     backgroundColor: colors.white,
-    // padding: 16,
+    flex: 1,
   },
   header: {
     fontSize: 24,
@@ -32,6 +31,12 @@ const globalStyles = StyleSheet.create({
     fontWeight: "400",
     color: "#2A3E50",
     fontFamily: "Roboto_400Regular",
+  },
+  subtitle: {
+    fontSize: 15,
+    // fontWeight: "400",
+    color: colors.white,
+    fontFamily: "Roboto_100Thin_Italic",
   },
   secondaryText: {
     fontSize: 14,
@@ -64,6 +69,12 @@ const globalStyles = StyleSheet.create({
   btn: {
     backgroundColor: colors.bleuMoyen,
     borderRadius: 10,
+  },
+  contain: {
+    backgroundColor: colors.white,
+    borderTopRightRadius: 50,
+    borderTopLeftRadius: 50,
+    padding: 20,
   },
 });
 

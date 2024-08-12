@@ -12,43 +12,44 @@ import { useNavigation } from "@react-navigation/native";
  * @title   le title du header  desi
  * @returns un comoosant
  */
-const CustomHeader = ({ origin, title }) => {
+const CustomHeader = ({ origin, title, subtitle }) => {
   const navigation = useNavigation();
   return (
-    <Appbar.Header style={styles.headerStyle}>
-      <TouchableOpacity
-        onPress={() => navigation.goBack(origin)}
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          // marginBottom: 16,
-        }}
-      >
+    <View style={styles.headerContainer}>
+      <TouchableOpacity>
         <MaterialIcons
           name="keyboard-backspace"
           size={30}
-          color={colors.blueFonce}
+          color={colors.white}
         />
       </TouchableOpacity>
-      <View
-        style={{
-          marginHorizontal: 20,
-          width: "80%",
-          alignItems: "center",
-        }}
-      >
-        <Text style={globalStyles.header}>{title}</Text>
+      <View style={styles.text}>
+        <Text style={[globalStyles.header, { color: colors.white }]}>
+          {title}
+        </Text>
+        {subtitle && (
+          <Text style={[styles.subtitle, globalStyles.subtitle]}>
+            {subtitle}
+          </Text>
+        )}
       </View>
-    </Appbar.Header>
+    </View>
   );
 };
 
 export default CustomHeader;
 
 const styles = StyleSheet.create({
-  headerStyle: {
-    backgroundColor: colors.white,
-    alignItems: "center",
+  headerContainer: {
+    paddingHorizontal: 20,
+    paddingVertical: 40,
     justifyContent: "center",
+  },
+  text: {
+    marginTop: 20,
+  },
+  subtitle: {
+    paddingTop: 20,
+    fontSize: 11,
   },
 });

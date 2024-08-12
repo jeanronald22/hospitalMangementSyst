@@ -87,7 +87,6 @@ export const getPatients = async () => {
 // ajouter un nouveau patient
 export const addPatients = async (information) => {
   const token = await getData("newToken");
-  console.log("l" + information.trueFormDate);
 
   try {
     const response = await fetch(`${API_URL}/${PATIENTS}`, {

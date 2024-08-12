@@ -37,6 +37,7 @@ const Patiens = ({ route, navigation }) => {
     try {
       const patients = await getPatients();
       setPatients(patients);
+      console.log(patients);
       return true;
     } catch (error) {}
     return false;
@@ -51,12 +52,10 @@ const Patiens = ({ route, navigation }) => {
           <Card.Title
             title={
               <Text style={{ fontFamily: "Roboto_500Medium" }}>
-                {`${item.personne.first_name} ${item.personne.last_name}`}
+                {`${item.nom} ${item.prenom}`}
               </Text>
             }
-            subtitle={`Age: ${getAge(item.personne.date_naissance)}, Sexe: ${
-              item.personne.sexe === "M" ? "Masculin" : "Feminin"
-            }`}
+            subtitle={`Age: ${getAge(item.dateNaissance)}, Sexe: ${item.sexe}`}
             left={(props) => (
               <Avatar.Icon
                 {...props}
@@ -92,9 +91,7 @@ const Patiens = ({ route, navigation }) => {
       <FlatList
         data={patients.filter(
           (patient) =>
-            patient.personne.first_name
-              .toLowerCase()
-              .includes(searchQuery.toLowerCase()) //on fais un tri sur les patient en fonction de ce qui a ete taper dans la base
+            patient.nom.toLowerCase().includes(searchQuery.toLowerCase()) //on fais un tri sur les patient en fonction de ce qui a ete taper dans la base
         )}
         renderItem={renderPatient}
         keyExtractor={(item) => item.id}

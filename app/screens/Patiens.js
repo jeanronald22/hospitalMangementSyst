@@ -12,17 +12,23 @@ import globalStyles from "../../assets/syles generaux/globalStyle";
 import { colors } from "../../assets/colors/colors";
 import { getPatients } from "../../api/dataService";
 import { differenceInYears } from "date-fns";
+import CustomHeader from "../../components/CustomHeader";
+import { useFocusEffect } from "@react-navigation/native";
 
 const Patiens = ({ route, navigation }) => {
+  const patient = route.params;
   const [searchQuery, setSearchQuery] = useState("");
   const [patients, setPatients] = useState([]);
   useEffect(() => {
     fetch();
+
+    // definitin des badget
+  }, []);
+  useFocusEffect(() => {
     navigation.setOptions({
       tabBarBadge: patients.length,
     });
-    // definitin des badget
-  }, [navigation]);
+  });
 
   //!----------------------------------------definition des fonction----------------------------------
   // fonction qui prend en entrer une date et retourne le nombre d'annee jusqua nos jour
@@ -37,7 +43,6 @@ const Patiens = ({ route, navigation }) => {
     try {
       const patients = await getPatients();
       setPatients(patients);
-      console.log(patients);
       return true;
     } catch (error) {}
     return false;
@@ -57,9 +62,10 @@ const Patiens = ({ route, navigation }) => {
             }
             subtitle={`Age: ${getAge(item.dateNaissance)}, Sexe: ${item.sexe}`}
             left={(props) => (
-              <Avatar.Icon
+              <Avatar.Image
                 {...props}
-                icon="account"
+                // icon="account"
+                source={require("../../assets/images/profil.jpg")}
                 style={{ backgroundColor: colors.bleuMoyen }}
               />
             )}
@@ -75,34 +81,42 @@ const Patiens = ({ route, navigation }) => {
   };
   // !-------------------------------------fonction de retour-----------------------------------
   return (
-    <View style={styles.container}>
-      <Appbar.Header style={{ backgroundColor: colors.white }}>
-        <View style={styles.headerStyle}>
-          <Text style={globalStyles.header}>{route.name}</Text>
-          <Image source={require("../../assets/images/logo.png")} />
-        </View>
-      </Appbar.Header>
-      <Searchbar
-        placeholder="Search"
-        onChangeText={onChangeSearch}
-        value={searchQuery}
-        style={[styles.searchbar]}
+    <View style={[globalStyles.container, styles.container]}>
+      <CustomHeader
+        title={route.name}
+        // subtitle="Hi 👋, Bienvenue sur Doctore, que souhaitez-vous faire  "
+        image={false}
       />
-      <FlatList
-        data={patients.filter(
-          (patient) =>
-            patient.nom.toLowerCase().includes(searchQuery.toLowerCase()) //on fais un tri sur les patient en fonction de ce qui a ete taper dans la base
-        )}
-        renderItem={renderPatient}
-        keyExtractor={(item) => item.id}
-        contentContainerStyle={styles.list}
-      />
+      <View style={styles.imageWel}>
+        <Image
+          source={require("../../assets/images/patients1.webp")}
+          style={styles.image}
+        />
+        <Searchbar
+          placeholder="Search"
+          onChangeText={onChangeSearch}
+          value={searchQuery}
+          style={[styles.searchbar]}
+        />
+      </View>
+
+      <View style={[globalStyles.contain, styles.listes]}>
+        <FlatList
+          data={patients.filter(
+            (patient) =>
+              patient.nom.toLowerCase().includes(searchQuery.toLowerCase()) //on fais un tri sur les patient en fonction de ce qui a
+          )}
+          renderItem={renderPatient}
+          keyExtractor={(item) => item.id}
+          contentContainerStyle={styles.list}
+          style={styles.liste}
+        />
+      </View>
       <FAB
         style={styles.fab}
-        small
         icon="plus"
         color={colors.white}
-        onPress={() => navigation.navigate("Ajouter patient")}
+        onPress={() => navigation.navigate("Ajouter patient", patient)}
       />
     </View>
   );
@@ -112,20 +126,20 @@ export default Patiens;
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    backgroundColor: colors.white,
+    backgroundColor: colors.bleuClaire,
     width: "100%",
-    padding: 16,
+    // padding: 16,
     // backgroundColor: "red",
   },
   searchbar: {
-    marginVertical: 15,
     borderRadius: 15,
     backgroundColor: colors.grisClair,
+    width: "90%",
+    alignSelf: "center",
+    marginBottom: 10,
+    position: "absolute",
   },
-  list: {
-    // padding: 10,
-  },
+
   card: {
     marginVertical: 10,
     backgroundColor: colors.grisClair,
@@ -143,5 +157,20 @@ const styles = StyleSheet.create({
     width: "100%",
     flexDirection: "row",
     justifyContent: "space-between",
+  },
+  list: {
+    height: "100%",
+  },
+  imageWel: {
+    width: "100%",
+    height: 100,
+    marginBottom: 30,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    resizeMode: "cover",
   },
 });

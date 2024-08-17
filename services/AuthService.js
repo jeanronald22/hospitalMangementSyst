@@ -10,6 +10,7 @@ export const authenticateUser = async (username, password) => {
     // recupereations des info
     const token = await getData("newToken");
     const userInfo = await getUserInfo(token);
+    await storeData("idCurrentUser", JSON.stringify(userInfo.id));
     return userInfo;
   } catch (error) {
     throw new Error("authentification echouer", error);

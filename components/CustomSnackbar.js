@@ -3,18 +3,13 @@ import React from "react";
 import { Snackbar, IconButton } from "react-native-paper";
 import { colors } from "../assets/colors/colors";
 
-const CustomSnackbar = ({
-  visible,
-  onDismiss,
-  message,
-  duration = Snackbar.DURATION_SHORT,
-}) => {
+const CustomSnackbar = ({ visible, onDismiss, message }) => {
   return (
     <View style={styles.container}>
       <Snackbar
         visible={visible}
         onDismiss={onDismiss}
-        duration={duration}
+        duration={Snackbar.DURATION_SHORT}
         style={styles.snackbar}
       >
         <View style={styles.snackbarContent}>
@@ -44,7 +39,7 @@ const styles = StyleSheet.create({
   snackbar: {
     marginTop: 200, // Marge au-dessus du Snackbar pour éviter qu'il ne soit collé en haut
     marginRight: 16, // Marge à droite
-    backgroundColor: colors.bleuClaire, // Couleur de fond du Snackbar
+    backgroundColor: colors.white, // Couleur de fond du Snackbar
     height: 50,
     alignItems: "center",
   },
@@ -54,7 +49,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   message: {
-    color: "#fff", // Couleur du texte
+    color: colors.bleuClaire, // Couleur du texte
     flex: 1,
   },
   closeButton: {

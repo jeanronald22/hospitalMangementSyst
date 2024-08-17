@@ -12,17 +12,19 @@ import { useNavigation } from "@react-navigation/native";
  * @title   le title du header  desi
  * @returns un comoosant
  */
-const CustomHeader = ({ origin, title, subtitle }) => {
+const CustomHeader = ({ origin, title, subtitle, image = true }) => {
   const navigation = useNavigation();
   return (
     <View style={styles.headerContainer}>
-      <TouchableOpacity>
-        <MaterialIcons
-          name="keyboard-backspace"
-          size={30}
-          color={colors.white}
-        />
-      </TouchableOpacity>
+      {image && (
+        <TouchableOpacity onPress={() => navigation.goBack(origin)}>
+          <MaterialIcons
+            name="keyboard-backspace"
+            size={30}
+            color={colors.white}
+          />
+        </TouchableOpacity>
+      )}
       <View style={styles.text}>
         <Text style={[globalStyles.header, { color: colors.white }]}>
           {title}

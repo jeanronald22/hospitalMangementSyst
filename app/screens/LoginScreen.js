@@ -49,8 +49,7 @@ const LoginScreen = ({ navigation }) => {
     try {
       // connexio au serveur
       const response = await authenticateUser(username, password);
-      console.log(response);
-      storeData("currentUser", response);
+      // await storeData("currentId", response.id);
       navigation.replace("Main", response);
     } catch (error) {
       setErrorMessage("Nom d'utilisateur ou mot de passe incorrect");

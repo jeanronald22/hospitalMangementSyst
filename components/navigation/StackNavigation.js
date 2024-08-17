@@ -14,6 +14,7 @@ import MaterialIcons from "react-native-vector-icons/MaterialIcons";
 import AddPatients from "../../app/screens/AddPatients";
 import PatientsDetails from "../../app/screens/PatientsDetails";
 import UpdatePatients from "../../app/screens/UpdatePatients";
+import AddRendezVous from "../../app/screens/AddRendezVous";
 
 const StackNavigation = () => {
   useEffect(() => {
@@ -93,6 +94,7 @@ const StackNavigation = () => {
         <Stack.Screen name="Ajouter patient" component={AddPatients} />
         <Stack.Screen name="Details" component={PatientsDetails} />
         <Stack.Screen name="Mise à jour" component={UpdatePatients} />
+        <Stack.Screen name="Ajout Rendez-vous" component={AddRendezVous} />
       </Stack.Navigator>
     </NavigationContainer>
   );

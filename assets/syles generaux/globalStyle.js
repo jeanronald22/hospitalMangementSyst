@@ -76,6 +76,10 @@ const globalStyles = StyleSheet.create({
     borderTopLeftRadius: 50,
     padding: 20,
   },
+  input2: {
+    marginVertical: 10,
+    backgroundColor: colors.grisClair,
+  },
 });
 
 export default globalStyles;

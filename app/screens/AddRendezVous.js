@@ -61,8 +61,6 @@ const AddRendezVous = () => {
   useEffect(() => {
     fetch();
   }, []);
-  console.log(patient);
-
   const showMenu = () => setVisible(true);
   const hideMenu = () => setVisible(false);
 

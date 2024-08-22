@@ -1,4 +1,17 @@
-import { API_URL, LOGIN, PATIENTS, RENDEZ_VOUS, USER_INFO } from "./endPoints";
+import {
+  API_URL,
+  LOGIN,
+  PATIENTS,
+  RENDEZ_VOUS,
+  USER_INFO,
+  CONSULTATIONS,
+  MEDICAMENTS,
+  OPERATION,
+  EXAMEN,
+  PRESCRIPTION,
+  DIAGNOSTIC,
+  PERSONNEL,
+} from "./endPoints";
 import { getData } from "../services/stockage";
 // fonction de login
 
@@ -72,6 +85,31 @@ export const getPatients = async () => {
       console.error("Erreur lors de la récupération des patients :", errorData);
       throw new Error(
         "Erreur lors de la récupération des patients :" + errorData.message
+      );
+    } else {
+      const patient = await response.json();
+      return patient;
+    }
+  } catch (error) {
+    console.error("Erreur lors de la requete :", error.message);
+    throw new Error("Erreur lors de la requete :" + error.message);
+  }
+};
+export const getPatientById = async (id) => {
+  const token = await getData("newToken");
+  try {
+    const response = await fetch(`${API_URL}/${PATIENTS}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Erreur lors de la récupération du patient :", errorData);
+      throw new Error(
+        "Erreur lors de la récupération du patient :" + errorData.message
       );
     } else {
       const patient = await response.json();
@@ -313,6 +351,248 @@ export const marquerRendezVousFait = async (id) => {
     console.error("Erreur lors de la requête :", error);
     throw new Error(
       "Une erreur s'est produite lors de la mise a jour du rendezvous."
+    );
+  }
+};
+// recuperation de toutes les consultations
+
+export const getConsultations = async () => {
+  const token = await getData("newToken");
+
+  try {
+    const response = await fetch(`${API_URL}/${CONSULTATIONS}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `Erreur lors de la récupération des consultations : ${errorData.message} (code ${response.status})`
+      );
+    }
+
+    return await response.json(); // On retourne directement la promesse
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération des consultations."
+    );
+  }
+};
+
+// recuperation des prescription (medicaments, examens, operations)
+
+export const getMedicaments = async () => {
+  const token = await getData("newToken");
+
+  try {
+    const response = await fetch(`${API_URL}/${MEDICAMENTS}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `Erreur lors de la récupération des medicaments : ${errorData.message} (code ${response.status})`
+      );
+    }
+
+    return await response.json(); // On retourne directement la promesse
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération des medicament."
+    );
+  }
+};
+export const getOperation = async () => {
+  const token = await getData("newToken");
+
+  try {
+    const response = await fetch(`${API_URL}/${OPERATION}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `Erreur lors de la récupération des OPERATION : ${errorData.message} (code ${response.status})`
+      );
+    }
+
+    return await response.json(); // On retourne directement la promesse
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération des OPERATION."
+    );
+  }
+};
+
+export const getExamen = async () => {
+  const token = await getData("newToken");
+
+  try {
+    const response = await fetch(`${API_URL}/${EXAMEN}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `Erreur lors de la récupération des Examen : ${errorData.message} (code ${response.status})`
+      );
+    }
+
+    return await response.json(); // On retourne directement la promesse
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération des examen."
+    );
+  }
+};
+
+// recuperarion des prescription
+export const getPrescriptiom = async () => {
+  const token = await getData("newToken");
+
+  try {
+    const response = await fetch(`${API_URL}/${PRESCRIPTION}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `Erreur lors de la récupération des prescription : ${errorData.message} (code ${response.status})`
+      );
+    }
+
+    return await response.json(); // On retourne directement la promesse
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération des prescription."
+    );
+  }
+};
+// creation d'un diagnostic
+export const addDiagnostic = async (data) => {
+  const token = await getData("newToken");
+  try {
+    const response = await fetch(`${API_URL}/${DIAGNOSTIC}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        diagnostic: data,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Erreur lors de l'ajout :", errorData);
+      throw new Error("Erreur lors de l'ajout  :" + errorData.message);
+    } else {
+      const dig = await response.json();
+      return dig;
+    }
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération des rendez-vous."
+    );
+  }
+};
+// ajout d'une nouvelle consultation
+
+export const addConsultation = async (data) => {
+  const token = await getData("newToken");
+
+  try {
+    const tmp = await addDiagnostic(data.diagnostic);
+    const idConsul = tmp.id;
+    const response = await fetch(`${API_URL}/${CONSULTATIONS}/`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        diagnostic: tmp,
+        motif: data.motif,
+        symptome: data.symptome,
+        dureeSymptome: data.dureeSymptome,
+        patient: data.id,
+      }),
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      console.error("Erreur lors de l'ajout de la consultation :", errorData);
+      throw new Error(
+        "Erreur lors de l'ajout de la consulatation :" + errorData.message
+      );
+    } else {
+      const patient = await response.json();
+      return patient;
+    }
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération des rendez-vous."
+    );
+  }
+};
+
+// recuperation des information dun utilisateur
+export const getUtilisateurbYID = async (id) => {
+  const token = await getData("newToken");
+
+  try {
+    const response = await fetch(`${API_URL}/${PERSONNEL}${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(
+        `Erreur lors de la récupération du user : ${errorData.message} (code ${response.status})`
+      );
+    }
+
+    return await response.json(); // On retourne directement la promesse
+  } catch (error) {
+    console.error("Erreur lors de la requête :", error);
+    throw new Error(
+      "Une erreur s'est produite lors de la récupération des prescription."
     );
   }
 };

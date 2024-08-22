@@ -117,6 +117,7 @@ const Patiens = ({ route, navigation }) => {
         icon="plus"
         color={colors.white}
         onPress={() => navigation.navigate("Ajouter patient", patient)}
+        label="Ajouter Patient"
       />
     </View>
   );

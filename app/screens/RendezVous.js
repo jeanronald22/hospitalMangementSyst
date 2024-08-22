@@ -9,6 +9,7 @@ import {
 import React, { useEffect, useState } from "react";
 import {
   annulerRendezVous,
+  getPatients,
   getRendezVous,
   marquerRendezVousFait,
 } from "../../api/dataService";
@@ -22,13 +23,19 @@ import { format } from "date-fns";
 import { useFocusEffect } from "@react-navigation/native";
 const RendezVous = ({ route, navigation }) => {
   const [rendezVous, setRendezVous] = useState([]);
+  const [patient, setPatient] = useState([]);
   const [filter, setFilter] = useState("all");
 
   useEffect(() => {
+    navigation.setOptions({
+      tabBarBadge: rendezVous.length,
+    });
     const fetchRendezVous = async () => {
       try {
         const data = await getRendezVous();
+        const patients = await getPatients();
         setRendezVous(data);
+        setPatient(patients);
       } catch (error) {
         console.error(
           "Erreur lors de la récupération des rendez-vous :",
@@ -87,7 +94,9 @@ const RendezVous = ({ route, navigation }) => {
           </View>
           <View>
             <Text style={globalStyles.subHeader}>
-              Mboumgni jean ronald{" "}
+              {patient.map((pat, index) => {
+                return pat.id === item.patient ? pat.nom : null;
+              })}
               <View
                 style={[
                   styles.etat,
@@ -185,6 +194,7 @@ const RendezVous = ({ route, navigation }) => {
         onPress={() => {
           navigation.navigate("Ajout Rendez-vous");
         }}
+        label="Nouveau Rendez-vous"
       />
     </View>
   );

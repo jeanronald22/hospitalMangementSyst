@@ -17,7 +17,7 @@ const CustomHeader = ({ origin, title, subtitle, image = true }) => {
   return (
     <View style={styles.headerContainer}>
       {image && (
-        <TouchableOpacity onPress={() => navigation.goBack(origin)}>
+        <TouchableOpacity onPress={() => navigation.goBack()}>
           <MaterialIcons
             name="keyboard-backspace"
             size={30}

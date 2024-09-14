@@ -6,7 +6,7 @@ import {
   Image,
   TouchableOpacity,
 } from "react-native";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, createContext } from "react";
 import { Appbar, Card, Avatar, Searchbar, FAB } from "react-native-paper";
 import globalStyles from "../../assets/syles generaux/globalStyle";
 import { colors } from "../../assets/colors/colors";
@@ -16,14 +16,18 @@ import CustomHeader from "../../components/CustomHeader";
 import { useFocusEffect } from "@react-navigation/native";
 
 const Patiens = ({ route, navigation }) => {
+  // creation d'un contexte
+  const controller = createContext();
+
   const patient = route.params;
   const [searchQuery, setSearchQuery] = useState("");
   const [patients, setPatients] = useState([]);
   useEffect(() => {
     fetch();
-
+    return () => {};
     // definitin des badget
   }, []);
+
   useFocusEffect(() => {
     navigation.setOptions({
       tabBarBadge: patients.length,
@@ -110,6 +114,7 @@ const Patiens = ({ route, navigation }) => {
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.list}
           style={styles.liste}
+          inverted={true}
         />
       </View>
       <FAB
@@ -161,6 +166,7 @@ const styles = StyleSheet.create({
   },
   list: {
     height: "100%",
+    marginBottom: 200,
   },
   imageWel: {
     width: "100%",
@@ -173,5 +179,8 @@ const styles = StyleSheet.create({
     height: "100%",
     width: "100%",
     resizeMode: "cover",
+  },
+  liste: {
+    height: "100%",
   },
 });

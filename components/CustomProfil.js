@@ -4,11 +4,28 @@ import globalStyles from "../assets/syles generaux/globalStyle";
 import { Avatar, Card, Icon } from "react-native-paper";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "../assets/colors/colors";
+import { useNavigation } from "@react-navigation/native";
 
 const CustomProfil = ({ nom, prenom, email, handlePress }) => {
+  const navigation = useNavigation();
   return (
     <View style={styles.container}>
-      <Text style={globalStyles.header}>Profile</Text>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <TouchableOpacity
+          style={{ marginRight: 20 }}
+          onPress={() => navigation.goBack()}
+        >
+          <MaterialIcons
+            name="arrow-back-ios"
+            size={28}
+            color={colors.blueFonce}
+          />
+        </TouchableOpacity>
+        <Text style={[globalStyles.header, { marginVertical: 20 }]}>
+          Dossier Patient
+        </Text>
+      </View>
+
       <Card
         style={{
           backgroundColor: colors.bleuClaire,
@@ -28,7 +45,7 @@ const CustomProfil = ({ nom, prenom, email, handlePress }) => {
             <TouchableOpacity onPress={handlePress}>
               <MaterialIcons
                 {...props}
-                name="edit"
+                name="arrow-forward-ios"
                 size={28}
                 color="white"
                 style={{ padding: 15 }}
@@ -66,6 +83,6 @@ export default CustomProfil;
 const styles = StyleSheet.create({
   container: {
     marginTop: 20,
-    padding: 10,
+    // padding: 10,
   },
 });

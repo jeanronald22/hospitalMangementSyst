@@ -17,12 +17,16 @@ import {
   Portal,
   Modal,
   Button,
+  Provider,
+  Menu,
 } from "react-native-paper";
 import { colors } from "../../assets/colors/colors";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePicker from "@react-native-community/datetimepicker";
 import CustomSnackbar from "../../components/CustomSnackbar";
 import { addPatients, updatePatient } from "../../api/dataService";
+import { MaterialIcons } from "@expo/vector-icons";
+import { format } from "date-fns";
 
 const UpdatePatients = ({ route, navigation }) => {
   // recuperation des inofrmations sur le patient
@@ -30,17 +34,13 @@ const UpdatePatients = ({ route, navigation }) => {
 
   // !-------------------------------definitin des states ------------------------
   const [formData, setFormData] = useState({
-    nom: patient.personne.first_name,
-    prenom: patient.personne.last_name,
-    adresse: patient.personne.address,
-    phone: patient.personne.phone_number,
-    email: patient.personne.email,
-    sexe: patient.personne.sexe,
-    dateDeNaissance: new Date(patient.personne.date_naissance),
-    temperature: patient.temperature,
-    poids: patient.poids,
-    taille: patient.taille,
-    tension: patient.tension_art,
+    nom: patient.nom,
+    prenom: patient.prenom,
+    adresse: patient.adresse,
+    phone: patient.telephone,
+    email: patient.adresseEmail,
+    sexe: patient.sexe,
+    dateDeNaissance: new Date(patient.dateNaissance),
     trueFormDate: "",
   });
   const [visible, setVisible] = useState(false);
@@ -52,6 +52,7 @@ const UpdatePatients = ({ route, navigation }) => {
     email: "",
   });
   const [visibleSnack, setVisibleSnack] = useState(false);
+  const [show, setShow] = useState(false);
   // definitions des regles de validation de notre formulaire
   const validation = {
     nom: "Nom  requis",
@@ -68,6 +69,11 @@ const UpdatePatients = ({ route, navigation }) => {
     setVisibleSnack(true);
     // il disparait apres 3 seconde pour plus d'info
     setTimeout(() => setVisibleSnack(false), 3000);
+  };
+  const onChange = (event, selectedDate) => {
+    currentDate = selectedDate || formData.dateDeNaissance;
+    setShow(false);
+    setFormData({ ...formData, dateDeNaissance: currentDate });
   };
 
   const formatDate = (date) => {
@@ -104,14 +110,16 @@ const UpdatePatients = ({ route, navigation }) => {
     return Object.keys(newErros).length === 0; //on verifier si il y'a d'erreur dans le tableur si oui on retour un tavleur avec les cles
   };
   const handleSubmit = () => {
-    const tmp = formatDate(formData.dateDeNaissance); //conversion de la date de naissance
-    setFormData({ ...formData, trueFormDate: tmp });
+    const tmp = new Date(formData.dateDeNaissance); //conversion de la date de naissance
+    const tmp1 = format(tmp, "yyyy-MM-dd");
+    setFormData({ ...formData, trueFormDate: tmp1 });
+    console.log(formData.trueFormDate);
+
     if (validate()) {
       // ici les donnees ne contiennent pas d'erreur
       try {
         // addPatients(formData);
         updatePatient(formData, patient.id);
-        console.log(formData.trueFormDate);
         setTimeout(() => showSnackBar(), 1000);
       } catch (error) {
         console.log(error);
@@ -121,27 +129,30 @@ const UpdatePatients = ({ route, navigation }) => {
 
   return (
     <View style={[globalStyles.container, { margin: 16 }]}>
-      <CustomHeader origin="Details" title={route.name} />
-
       {/* definirion du contenue */}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={styles.elementsContainer}
       >
         <PaperProvider>
-          <CustomSnackbar
-            visible={visibleSnack}
-            onDismiss={() => setVisibleSnack(false)}
-            message="Modification reussie !"
-          />
           <ScrollView
             style={styles.formContainer}
             showsVerticalScrollIndicator={false}
           >
-            <Text style={globalStyles.subHeader}>
-              Informations Personnel (*)
-            </Text>
-            <Divider style={{ marginVertical: 10 }} />
+            <View style={{ marginTop: 50 }}>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <MaterialIcons
+                  name="arrow-back-ios"
+                  size={28}
+                  color={colors.blueFonce}
+                />
+              </TouchableOpacity>
+            </View>
+            <CustomSnackbar
+              visible={visibleSnack}
+              onDismiss={() => setVisibleSnack(false)}
+              message="Modification reussie !"
+            />
             <TextInput
               label="Nom"
               mode="outlined"
@@ -186,37 +197,50 @@ const UpdatePatients = ({ route, navigation }) => {
             {erros.prenom && (
               <Text style={styles.errorText}>{erros.prenom}</Text>
             )}
-            <View>
-              <TouchableOpacity
-                style={[
-                  globalStyles.button,
-                  { backgroundColor: colors.grisMoyen },
-                ]}
-                onPress={() => showModal()}
-              >
-                <Text style={globalStyles.buttonText}>
-                  {formData.sexe === "M" ? "Masculin" : "Feminin"}
-                </Text>
-              </TouchableOpacity>
-            </View>
+
             {/* definiton du modal de selection du sexe */}
-            <Portal>
-              <Modal
-                visible={visible}
-                onDismiss={hideModal}
-                contentContainerStyle={{ backgroundColor: colors.grisClair }}
-              >
-                <Picker
-                  selectedValue={formData.sexe}
-                  onValueChange={(itemValue) =>
-                    setFormData({ ...formData, sexe: itemValue })
-                  }
-                >
-                  <Picker.Item label="Masculin" value="M" />
-                  <Picker.Item label="Feminin" value="F" />
-                </Picker>
-              </Modal>
-            </Portal>
+
+            <Menu
+              visible={visible}
+              onDismiss={() => setVisible(false)}
+              anchor={
+                <View>
+                  <TextInput
+                    label={"Sexe"}
+                    mode="outlined"
+                    value={formData.sexe}
+                    style={styles.input}
+                  />
+                  <TouchableOpacity
+                    style={{ position: "absolute", left: "90%", top: "30%" }}
+                    onPress={() => setVisible(true)}
+                  >
+                    <MaterialIcons
+                      name="arrow-drop-down"
+                      size={28}
+                      color={colors.bleuClaire}
+                    />
+                  </TouchableOpacity>
+                </View>
+              }
+            >
+              <Menu.Item
+                title="Masculin"
+                testID="items"
+                onPress={() => {
+                  setFormData({ ...formData, sexe: "Masculin" });
+                  setVisible(false);
+                }}
+              />
+              <Menu.Item
+                title="Feminin "
+                testID="item"
+                onPress={() => {
+                  setFormData({ ...formData, sexe: "Feminin" });
+                  setVisible(false);
+                }}
+              />
+            </Menu>
             <TextInput
               label="Telephone"
               onChangeText={(item) => setFormData({ ...formData, phone: item })}
@@ -299,75 +323,45 @@ const UpdatePatients = ({ route, navigation }) => {
               <Text style={styles.errorText}>{erros.adresse}</Text>
             )}
             {/* definiton de la date de naissance */}
-            <View style={styles.datepickerContainer}>
-              <Text style={[globalStyles.buttonText]}>Date de naissance !</Text>
-              {
-                <DateTimePicker
-                  mode="date"
-                  display="default"
-                  onChangeText={(text) =>
-                    setFormData({
-                      ...formData,
-                      dateDeNaissance: formatDate(text),
-                    })
-                  }
-                  value={formData.dateDeNaissance}
-                  style={{
-                    backgroundColor: colors.grisMoyen,
-                  }}
+            <View>
+              <TextInput
+                label={"Date de naissance"}
+                onChangeText={(date) => {
+                  setFormData({ ...formData, dateDeNaissance: date });
+                }}
+                mode="outlined"
+                value={new Date(formData.dateDeNaissance).toDateString()}
+                style={styles.input}
+              />
+              <TouchableOpacity
+                style={{ position: "absolute", left: "90%", top: "30%" }}
+                onPress={() => setShow(true)}
+              >
+                <MaterialIcons
+                  name="calendar-month"
+                  size={28}
+                  color={colors.bleuClaire}
                 />
-              }
+              </TouchableOpacity>
             </View>
-            <Text style={globalStyles.subHeader}>Informations Medical (*)</Text>
-            <Divider style={{ marginVertical: 10 }} />
-            <TextInput
-              label="Temperature"
-              onChangeText={(text) =>
-                setFormData({ ...formData, temperature: text })
-              }
-              value={`${formData.temperature}`}
-              mode="outlined"
-              keyboardType="numeric"
-              style={styles.input}
-              activeOutlineColor={colors.bleuMoyen}
-            />
-            <TextInput
-              label="Poids"
-              onChangeText={(text) => setFormData({ ...formData, poids: text })}
-              value={`${formData.poids}`}
-              mode="outlined"
-              keyboardType="numeric"
-              style={styles.input}
-              activeOutlineColor={colors.bleuMoyen}
-            />
-            <TextInput
-              label="Taille"
-              onChangeText={(text) =>
-                setFormData({ ...formData, taille: text })
-              }
-              value={`${formData.taille}`}
-              mode="outlined"
-              keyboardType="numeric"
-              style={styles.input}
-              activeOutlineColor={colors.bleuMoyen}
-            />
-            <TextInput
-              label="Tension"
-              onChangeText={(text) =>
-                setFormData({ ...formData, tension: text })
-              }
-              value={`${formData.tension}`}
-              mode="outlined"
-              keyboardType="numeric"
-              style={styles.input}
-              activeOutlineColor={colors.bleuMoyen}
-            />
+
+            {show && (
+              <DateTimePicker
+                testID="datepicker"
+                mode="date"
+                display="default"
+                onChange={onChange}
+                value={formData.dateDeNaissance}
+                is24Hour={true}
+              />
+            )}
+
             {/* definiton des buttons d'actions| validation ou annulation */}
             <View style={styles.buttonContainer}>
               <Button
                 mode="contained"
                 style={{
-                  marginBottom: 10,
+                  // marginBottom: 10,
                   backgroundColor: colors.bleuMoyen,
                   flex: 1,
                   marginHorizontal: 4,
@@ -405,7 +399,6 @@ export default UpdatePatients;
 
 const styles = StyleSheet.create({
   elementsContainer: {
-    // backgroundColor: "red",
     flex: 1,
   },
   input: {

@@ -80,6 +80,19 @@ const globalStyles = StyleSheet.create({
     marginVertical: 10,
     backgroundColor: colors.grisClair,
   },
+  fab: {
+    position: "absolute",
+    margin: 16,
+    right: 0,
+    bottom: 0,
+    backgroundColor: colors.bleuMoyen,
+    color: colors.white,
+  },
+  input3: {
+    marginVertical: 10,
+    backgroundColor: colors.white,
+    borderColor: colors.grisClair,
+  },
 });
 
 export default globalStyles;

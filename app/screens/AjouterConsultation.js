@@ -22,7 +22,7 @@ const AjouterConsultation = ({ route, navigation }) => {
     motif: "",
     symptome: "",
     dureeSymptome: "",
-    id: 1,
+    id: route.params,
     nomPatient: "Veillez selectionner un patient",
   });
   const [visible, setVisible] = useState(false);
@@ -90,39 +90,6 @@ const AjouterConsultation = ({ route, navigation }) => {
           onChangeText={(text) => setData({ ...data, diagnostic: text })}
         />
         <Provider>
-          <Menu
-            visible={visible}
-            onDismiss={hideMenu}
-            // anchorPosition="bottom"
-            style={{ marginTop: -450 }}
-            anchor={
-              <View style={styles.nameContainer}>
-                {/* <Text>Selectionner un patient</Text> */}
-                <Text>{data.nomPatient}</Text>
-                <TouchableOpacity style={styles.position2} onPress={showMenu}>
-                  <MaterialIcons
-                    name="arrow-drop-down"
-                    size={40}
-                    color={colors.bleuClaire}
-                  />
-                </TouchableOpacity>
-              </View>
-            }
-          >
-            {patient.map((pat, index) => {
-              return (
-                <View>
-                  <Menu.Item
-                    testID="Items"
-                    key={index}
-                    title={pat.nom}
-                    onPress={() => handleSelect(pat.nom, pat.id)}
-                  />
-                  {index < patient.length - 1 && <Divider />}
-                </View>
-              );
-            })}
-          </Menu>
           <Button style={globalStyles.btn} onPress={handlePress}>
             <Text style={globalStyles.buttonText}>Ajouter</Text>
           </Button>

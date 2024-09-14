@@ -187,7 +187,7 @@ const RendezVous = ({ route, navigation }) => {
           showsVerticalScrollIndicator={false}
         />
       </View>
-      <FAB
+      {/* <FAB
         style={styles.fab}
         icon="plus"
         color={colors.white}
@@ -195,7 +195,7 @@ const RendezVous = ({ route, navigation }) => {
           navigation.navigate("Ajout Rendez-vous");
         }}
         label="Nouveau Rendez-vous"
-      />
+      /> */}
     </View>
   );
 };

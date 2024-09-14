@@ -10,104 +10,105 @@ const Profil = () => {
   // !-----------------DEFINITION DES STATES ----------------
   const [user, setUser] = useState([]);
   // !--------DEFINITON DES FONCTIONS ----------------
-  const fetch = async () => {
-    try {
-      const idDoctorString = await getData("idCurrentUser");
-      const id = JSON.parse(idDoctorString);
-      const response = await getUtilisateurbYID(id);
-      setUser(response);
-    } catch (error) {
-      console.log("Error fetching", error);
-    }
-  };
-  useEffect(() => {
-    fetch();
-  }, []);
-  return (
-    <View style={[globalStyles.container]}>
-      <View
-        style={{
-          height: "30%",
-          backgroundColor: colors.bleuClaire,
-          width: "100%",
-        }}
-      >
-        <Image
-          source={require("../../assets/images/pp.avif")}
-          style={styles.img}
-        />
-      </View>
-      {/* definition des information */}
-      <View
-        style={{
-          height: "70%",
-          // justifyContent: "center",
-          // backgroundColor: "red",
-        }}
-      >
-        <View style={{ marginTop: 100, alignItems: "center" }}>
-          <Text style={{ fontSize: 20, fontWeight: "bold" }}>
-            {user.isDoctore ? "Dr." : "Infirmier "}
+   useEffect(() => {
+     fetch();
+   }, []);
+   const fetch = async () => {
+     try {
+       const idDoctorString = await getData("idCurrentUser");
+       const id = JSON.parse(idDoctorString);
+       const response = await getUtilisateurbYID(id);
+       setUser(response);
+     } catch (error) {
+       console.log("Error fetching", error);
+     }
+   };
 
-            {user.personnel.user.username}
-          </Text>
-          <Text style={{ fontSize: 16, color: "gray" }}>{user.specialite}</Text>
-          <Card style={styles.card}>
-            <Card.Content>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text>Adresse Email</Text>
-                <Text> {user.personnel.user.email}</Text>
-              </View>
-            </Card.Content>
-          </Card>
-          <Card style={styles.card}>
-            <Card.Content>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text>Téléphone</Text>
-                <Text> {user.personnel.telephone}</Text>
-              </View>
-            </Card.Content>
-          </Card>
-          <Card style={styles.card}>
-            <Card.Content>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text>Année de naissance</Text>
-                <Text>{user.personnel.dateNaissance}</Text>
-              </View>
-            </Card.Content>
-          </Card>
-          <Card style={styles.card}>
-            <Card.Content>
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Text>Adresse</Text>
-                <Text>{user.personnel.adresse}</Text>
-              </View>
-            </Card.Content>
-          </Card>
-        </View>
-      </View>
-    </View>
-  );
+   return (
+     <View style={[globalStyles.container]}>
+       <View
+         style={{
+           height: "30%",
+           backgroundColor: colors.bleuClaire,
+           width: "100%",
+         }}
+       >
+         <Image
+           source={require("../../assets/images/pp.avif")}
+           style={styles.img}
+         />
+       </View>
+       {/* definition des information */}
+       <View
+         style={{
+           height: "70%",
+           // justifyContent: "center",
+           // backgroundColor: "red",
+         }}
+       >
+         <View style={{ marginTop: 100, alignItems: "center" }}>
+           <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+             {user.isDoctore ? "Dr." : "Infirmier "}
+
+             {user.personnel.user.username}
+           </Text>
+           {/* <Text style={{ fontSize: 16, color: "gray" }}>{user.specialite}</Text> */}
+           <Card style={styles.card}>
+             <Card.Content>
+               <View
+                 style={{
+                   flexDirection: "row",
+                   justifyContent: "space-between",
+                 }}
+               >
+                 <Text>Adresse Email</Text>
+                 <Text> {user.personnel.user.email}</Text>
+               </View>
+             </Card.Content>
+           </Card>
+           <Card style={styles.card}>
+             <Card.Content>
+               <View
+                 style={{
+                   flexDirection: "row",
+                   justifyContent: "space-between",
+                 }}
+               >
+                 <Text>Téléphone</Text>
+                 <Text> {user.personnel.telephone}</Text>
+               </View>
+             </Card.Content>
+           </Card>
+           <Card style={styles.card}>
+             <Card.Content>
+               <View
+                 style={{
+                   flexDirection: "row",
+                   justifyContent: "space-between",
+                 }}
+               >
+                 <Text>Année de naissance</Text>
+                 <Text>{user.personnel.dateNaissance}</Text>
+               </View>
+             </Card.Content>
+           </Card>
+           <Card style={styles.card}>
+             <Card.Content>
+               <View
+                 style={{
+                   flexDirection: "row",
+                   justifyContent: "space-between",
+                 }}
+               >
+                 <Text>Adresse</Text>
+                 <Text>{user.personnel.adresse}</Text>
+               </View>
+             </Card.Content>
+           </Card>
+         </View>
+       </View>
+     </View>
+   );
 };
 
 export default Profil;

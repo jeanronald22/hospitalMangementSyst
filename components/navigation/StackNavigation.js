@@ -17,6 +17,14 @@ import AddRendezVous from "../../app/screens/AddRendezVous";
 import ConsultationDetail from "../../app/screens/ConsultationDetail";
 import Profil from "../../app/screens/Profil";
 import AjouterConsultation from "../../app/screens/AjouterConsultation";
+import PatientInfo from "../../app/screens/PatientInfo";
+import RendeVousByPatient from "../../app/screens/RendeVousByPatient";
+import AjoutRDV from "../../app/screens/AjoutRDV";
+import InfoMedical from "../../app/screens/InfoMedical";
+import UpdateInfoMedical from "../../app/screens/UpdateInfoMedical";
+import ConsultationByPatient from "../../api/ConsultationByPatient";
+import PrescriptionByPatient from "../../app/screens/PrescriptionByPatient";
+import Note from "../../app/screens/Note";
 
 const StackNavigation = () => {
   useEffect(() => {
@@ -61,8 +69,8 @@ const StackNavigation = () => {
               case "Rendez-vous":
                 iconeName = "event";
                 break;
-              case "Consultations":
-                iconeName = "medical-services";
+              case "Statistique":
+                iconeName = "bar-chart";
                 break;
               case "Prescriptions":
                 iconeName = "receipt-long";
@@ -79,7 +87,7 @@ const StackNavigation = () => {
       >
         <Tabs.Screen name="Patients" component={Patiens} />
         <Tabs.Screen name="Rendez-vous" component={RendezVous} />
-        <Tabs.Screen name="Consultations" component={Consultations} />
+        <Tabs.Screen name="Statistique" component={Consultations} />
         <Tabs.Screen name="Profil" component={Profil} />
       </Tabs.Navigator>
     );
@@ -108,6 +116,26 @@ const StackNavigation = () => {
           name="Ajoute Consultation"
           component={AjouterConsultation}
         />
+        <Stack.Screen name="Information" component={PatientInfo} />
+        <Stack.Screen
+          name="Rendez-vous par patient"
+          component={RendeVousByPatient}
+        />
+        <Stack.Screen name="Ajout RDV" component={AjoutRDV} />
+        <Stack.Screen name="Info Medical" component={InfoMedical} />
+        <Stack.Screen
+          name="Modfier Info Medical"
+          component={UpdateInfoMedical}
+        />
+        <Stack.Screen
+          name="Consultation par patient"
+          component={ConsultationByPatient}
+        />
+        <Stack.Screen
+          name="PrescriptionByPatient"
+          component={PrescriptionByPatient}
+        />
+        <Stack.Screen name="Note" component={Note} />
       </Stack.Navigator>
     </NavigationContainer>
   );

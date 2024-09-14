@@ -51,7 +51,7 @@ const AddPatients = ({ route }) => {
   //  fonction de stockage dans la base de donnees
   const handlePresse = async () => {
     try {
-      // const status = await addPatient(formData);
+      const status = await addPatient(formData);
       setTimeout(() => {
         setVisible(true);
       }, 3000);
